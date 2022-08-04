@@ -1,0 +1,26 @@
+name: fluboard
+description: Calendar board built with Flutter
+
+publish_to: 'none'
+version: 0.0.1+1
+
+environment:
+  sdk: ">=2.17.6 <3.0.5"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  intl:
+  syncfusion_flutter_calendar: ^20.2.40
+  window_manager: ^0.2.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+
+  uses-material-design: true
