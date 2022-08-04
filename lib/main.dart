@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:fluboard/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
-  await windowManager.setFullScreen(true);
+  if (Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
+    await windowManager.ensureInitialized();
+    await windowManager.setFullScreen(true);
+  }
   runApp(const MyApp());
 }
 
