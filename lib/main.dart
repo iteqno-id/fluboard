@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:fluboard/di/injector.dart' as injector;
 import 'package:fluboard/screen/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:window_manager/window_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  injector.init();
+  dotenv.load(fileName: '.env');
   if (Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
     await windowManager.ensureInitialized();
     await windowManager.setFullScreen(true);

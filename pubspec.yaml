@@ -14,6 +14,10 @@ dependencies:
   intl:
   syncfusion_flutter_calendar: ^20.2.40
   window_manager: ^0.2.5
+  http: ^0.13.5
+  get_it: ^7.2.0
+  provider: ^6.0.3
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -24,3 +28,6 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
+  assets:
+    - .env
