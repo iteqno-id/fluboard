@@ -1,9 +1,9 @@
 # Fluboard
 
-Calendar wall-board built with Flutter and ❤️
+Calendar wall-board-display built with Flutter and ❤️
 
 ## Goals
-Build calendar board ([DAKBoard alternative](https://dakboard.com/)) which easy to install and easy to costumize. The app should be support to install in embedded PC such as Raspberry Pi, Banana Pi etc. and should be run on any Operating Systems.
+Build calendar board ([DAKBoard alternative](https://dakboard.com/)) which easy to install and easy to customize. The app should be support to install in embedded PC such as Raspberry Pi, Banana Pi etc. and should be run on any Operating Systems.
 
 ## Screenshots
 
@@ -12,13 +12,15 @@ Build calendar board ([DAKBoard alternative](https://dakboard.com/)) which easy 
 
 
 ## Todo
-- [ ] Weather API integration
+- [ ] Integration with Open Weather
 - [ ] Integration with Google Calendar
 - [ ] Integration with Google Todo
 - [ ] integration with Google Photo
 - [ ] Provide settings screen
 - [ ] Portrait mode
 - [ ] Customizable skin/theme
+- [ ] Localization
+- [ ] Translation
 
 ## Operating System Support
 |   OS   | Supported | Tested |
