@@ -2,7 +2,7 @@ name: fluboard
 description: Calendar board built with Flutter
 
 publish_to: 'none'
-version: 0.0.1+1
+version: 0.0.2-dev+2
 
 environment:
   sdk: ">=2.17.6 <3.0.5"

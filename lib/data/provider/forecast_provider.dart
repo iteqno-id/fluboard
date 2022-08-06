@@ -3,8 +3,9 @@ import 'package:fluboard/data/model/common/result_state.dart';
 import 'package:fluboard/data/model/open_weather/forecast.dart';
 import 'package:fluboard/di/injector.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class WeatherProvider extends ChangeNotifier {
+class ForecastProvider extends ChangeNotifier {
   final repository = getIt<AppRepository>();
 
   late ResultState _state;
@@ -15,14 +16,15 @@ class WeatherProvider extends ChangeNotifier {
   String get message => _message;
   Forecast get forecast => _forecast;
 
-  WeatherProvider getWeather() {
+  ForecastProvider getWeather() {
     _getForecast();
     return this;
   }
 
   Future<dynamic> _getForecast() async {
     _state = ResultState.loading;
-    String city = "Serpong, Banten";
+    notifyListeners();
+    String city = dotenv.get('CITY');
     final result = await repository.getForecast(city);
     if (result.cod == "200") {
       _state = ResultState.hasData;

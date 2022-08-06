@@ -1,21 +1,21 @@
 class Coordinate {
   Coordinate({
-    required this.lat,
     required this.lon,
+    required this.lat,
   });
 
-  final double lat;
   final double lon;
+  final double lat;
 
   factory Coordinate.fromJson(Map<String, dynamic> json) {
     return Coordinate(
-      lat: json["lat"] ?? 0.toDouble(),
       lon: json["lon"] ?? 0.toDouble(),
+      lat: json["lat"] ?? 0.toDouble(),
     );
   }
 
   Map<String, dynamic> toJson() => {
-        "lat": lat,
         "lon": lon,
+        "lat": lat,
       };
 }

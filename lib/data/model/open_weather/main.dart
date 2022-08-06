@@ -5,10 +5,9 @@ class Main {
     required this.tempMin,
     required this.tempMax,
     required this.pressure,
+    required this.humidity,
     required this.seaLevel,
     required this.grndLevel,
-    required this.humidity,
-    required this.tempKf,
   });
 
   final double temp;
@@ -16,10 +15,9 @@ class Main {
   final double tempMin;
   final double tempMax;
   final int pressure;
+  final int humidity;
   final int seaLevel;
   final int grndLevel;
-  final int humidity;
-  final double tempKf;
 
   factory Main.fromJson(Map<String, dynamic> json) {
     return Main(
@@ -28,10 +26,9 @@ class Main {
       tempMin: json["temp_min"] ?? 0.toDouble(),
       tempMax: json["temp_max"] ?? 0.toDouble(),
       pressure: json["pressure"] ?? 0,
+      humidity: json["humidity"] ?? 0,
       seaLevel: json["sea_level"] ?? 0,
       grndLevel: json["grnd_level"] ?? 0,
-      humidity: json["humidity"] ?? 0,
-      tempKf: json["temp_kf"] ?? 0.toDouble(),
     );
   }
 
@@ -41,9 +38,8 @@ class Main {
         "temp_min": tempMin,
         "temp_max": tempMax,
         "pressure": pressure,
+        "humidity": humidity,
         "sea_level": seaLevel,
         "grnd_level": grndLevel,
-        "humidity": humidity,
-        "temp_kf": tempKf,
       };
 }

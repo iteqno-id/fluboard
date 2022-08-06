@@ -8,8 +8,6 @@ class City {
     required this.country,
     required this.population,
     required this.timezone,
-    required this.sunrise,
-    required this.sunset,
   });
 
   final int id;
@@ -18,8 +16,6 @@ class City {
   final String country;
   final int population;
   final int timezone;
-  final int sunrise;
-  final int sunset;
 
   factory City.fromJson(Map<String, dynamic> json) {
     return City(
@@ -29,8 +25,6 @@ class City {
       country: json["country"] ?? "",
       population: json["population"] ?? 0,
       timezone: json["timezone"] ?? 0,
-      sunrise: json["sunrise"] ?? 0,
-      sunset: json["sunset"] ?? 0,
     );
   }
 
@@ -41,7 +35,5 @@ class City {
         "country": country,
         "population": population,
         "timezone": timezone,
-        "sunrise": sunrise,
-        "sunset": sunset,
       };
 }

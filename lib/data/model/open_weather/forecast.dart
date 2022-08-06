@@ -1,5 +1,5 @@
 import 'package:fluboard/data/model/open_weather/city.dart';
-import 'package:fluboard/data/model/open_weather/forecast_list.dart';
+import 'package:fluboard/data/model/open_weather/forecast_item.dart';
 
 class Forecast {
   Forecast({
@@ -13,7 +13,7 @@ class Forecast {
   final String cod;
   final String message;
   final int cnt;
-  final List<ForecastList> list;
+  final List<ForecastItem> list;
   final City? city;
 
   factory Forecast.fromJson(Map<String, dynamic> json) {
@@ -21,7 +21,9 @@ class Forecast {
       cod: json["cod"] ?? "",
       message: json["message"].toString(),
       cnt: json["cnt"] ?? 0,
-      list: json["list"] == null ? [] : List<ForecastList>.from(json["list"].map((x) => x)),
+      list: json["list"] == null
+          ? []
+          : List<ForecastItem>.from(json["list"].map((x) => ForecastItem.fromJson(x))),
       city: json["city"] == null ? null : City.fromJson(json["city"]),
     );
   }
@@ -30,7 +32,7 @@ class Forecast {
         "cod": cod,
         "message": message,
         "cnt": cnt,
-        "list": List<ForecastList>.from(list.map((x) => x)),
+        "list": List<ForecastItem>.from(list.map((x) => x)),
         "city": city?.toJson(),
       };
 }

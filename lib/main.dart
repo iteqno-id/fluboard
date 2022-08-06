@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:fluboard/data/provider/current_weather_provider.dart';
+import 'package:fluboard/data/provider/forecast_provider.dart';
 import 'package:fluboard/di/injector.dart' as injector;
 import 'package:fluboard/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 
 void main() async {
@@ -22,11 +25,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fluboard',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
-      home: const HomeScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ForecastProvider().getWeather()),
+        ChangeNotifierProvider(create: (_) => CurrentWeatherProvider().getCurrentWeather()),
+      ],
+      child: MaterialApp(
+        title: 'Fluboard',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark(),
+        home: const HomeScreen(),
+      ),
     );
   }
 }
