@@ -12,6 +12,7 @@ class CalendarWidget extends StatelessWidget {
       firstDayOfWeek: 1,
       todayHighlightColor: Colors.red,
       todayTextStyle: const TextStyle(fontSize: 32),
+      headerStyle: const CalendarHeaderStyle(textAlign: TextAlign.center),
       monthViewSettings: const MonthViewSettings(
         dayFormat: "EEE",
         numberOfWeeksInView: 5,
@@ -34,7 +35,7 @@ class CalendarWidget extends StatelessWidget {
     List<DateTime> weekend = [];
     List.generate(daysToGenerate, (i) {
       DateTime newDate = DateTime(firsDate.year, firsDate.month, firsDate.day + (i));
-      if (newDate.weekday >= 6) {
+      if (newDate.weekday >= 6 && newDate.day != DateTime.now().day) {
         weekend.add(newDate);
       }
     });
