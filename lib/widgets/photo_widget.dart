@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:fluboard/constants/app_config.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class PhotoWidget extends StatefulWidget {
   const PhotoWidget({Key? key}) : super(key: key);
@@ -49,7 +49,7 @@ class _PhotoWidgetState extends State<PhotoWidget> {
   ];
 
   tick() {
-    Timer.periodic(const Duration(seconds: 10), (timer) {
+    Timer.periodic(const Duration(seconds: AppConfig.photoRefresh), (timer) {
       if (selectedPhoto == photos.length - 1) {
         selectedPhoto = 0;
       } else {
