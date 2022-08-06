@@ -18,7 +18,12 @@ class ForecastItemWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Text(forecast.dateTime().asDayShort()),
+          Container(
+            padding: const EdgeInsets.only(top: 2, right: 8, bottom: 4, left: 8),
+            decoration:
+                BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(12)),
+            child: Text(forecast.dateTime().asDayShort().toUpperCase()),
+          ),
           const SizedBox(height: 4),
           Icon(forecast.weather.first.icon.asWeatherIcon(), size: 56),
           const SizedBox(height: 4),
