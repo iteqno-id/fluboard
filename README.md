@@ -18,7 +18,7 @@ CITY="Your city name, e.g: Serpong, Banten"
 ```
 
 ## Todo
-- [ ] Integration with Open Weather
+- [x] Integration with Open Weather
 - [ ] Integration with Google Calendar
 - [ ] Integration with Google Todo
 - [ ] integration with Google Photo
