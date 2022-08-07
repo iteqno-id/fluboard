@@ -10,7 +10,7 @@ class OpenWeatherService {
     final response = await HttpClient.get(
       AppConfig.openWeatherApiDomain,
       '/data/2.5/forecast/daily',
-      query: {"q": city, "appid": AppConfig.openWeatherApiKey, "units": "metric"},
+      query: {"q": city, "appid": AppConfig.openWeatherApiKey, "units": AppConfig.units},
     );
     return Forecast.fromJson(jsonDecode(response.data));
   }
@@ -19,7 +19,7 @@ class OpenWeatherService {
     final response = await HttpClient.get(
       AppConfig.openWeatherApiDomain,
       '/data/2.5/weather',
-      query: {"q": city, "appid": AppConfig.openWeatherApiKey, "units": "metric"},
+      query: {"q": city, "appid": AppConfig.openWeatherApiKey, "units": AppConfig.units},
     );
     return CurrentWeather.fromJson(jsonDecode(response.data));
   }

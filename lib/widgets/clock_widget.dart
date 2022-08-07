@@ -35,14 +35,23 @@ class _ClockWidgetState extends State<ClockWidget> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            dateTime.asHHMM(),
+            dateTime.ashmm(),
             style: TextStyle(fontSize: 64, color: Colors.white, shadows: _buildShadow()),
           ),
           Container(
-            margin: const EdgeInsets.only(top: 10),
-            child: Text(
-              dateTime.asSecond(),
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(shadows: _buildShadow()),
+            margin: const EdgeInsets.only(top: 12),
+            child: Column(
+              children: [
+                Text(
+                  dateTime.asSecond(),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(shadows: _buildShadow()),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  dateTime.asAmPm(),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(shadows: _buildShadow()),
+                ),
+              ],
             ),
           ),
           const Spacer(),

@@ -38,8 +38,21 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-          const Expanded(
-            child: CalendarWidget(),
+          SizedBox(
+            width: MediaQuery.of(context).size.width / 3 * 2,
+            child: Stack(
+              children: [
+                const CalendarWidget(),
+                Positioned(
+                  left: -1,
+                  child: Container(
+                    width: 2,
+                    height: MediaQuery.of(context).size.height,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

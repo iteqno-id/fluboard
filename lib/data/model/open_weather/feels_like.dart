@@ -13,10 +13,10 @@ class FeelsLike {
 
   factory FeelsLike.fromJson(Map<String, dynamic> json) {
     return FeelsLike(
-      day: json["day"] ?? 0.toDouble(),
-      night: json["night"] ?? 0.toDouble(),
-      eve: json["eve"] ?? 0.toDouble(),
-      morn: json["morn"] ?? 0.toDouble(),
+      day: double.parse('${json["day"]}'),
+      night: double.parse('${json["night"]}'),
+      eve: double.parse('${json["eve"]}'),
+      morn: double.parse('${json["morn"]}'),
     );
   }
 
