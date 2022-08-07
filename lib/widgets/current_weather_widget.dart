@@ -6,6 +6,7 @@ import 'package:fluboard/data/provider/current_weather_provider.dart';
 import 'package:fluboard/utils/extension.dart';
 import 'package:fluboard/utils/weather_icon_extension.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 class CurrentWeatherWidget extends StatefulWidget {
@@ -99,7 +100,10 @@ class _CurrentWeatherWidgetState extends State<CurrentWeatherWidget> {
   }
 
   startTimer() {
-    timer = Timer.periodic(const Duration(minutes: AppConfig.currentWeatherRefresh), (timer) {
+    final box = Hive.box(AppConfig.dbSettings);
+    final time =
+        box.get(AppConfig.currentWeatherDoc, defaultValue: AppConfig.currentWeatherRefresh) as int;
+    timer = Timer.periodic(Duration(minutes: time), (timer) {
       Provider.of<CurrentWeatherProvider>(context, listen: false).getCurrentWeather();
     });
   }

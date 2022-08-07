@@ -5,6 +5,7 @@ import 'package:fluboard/data/model/common/result_state.dart';
 import 'package:fluboard/data/provider/forecast_provider.dart';
 import 'package:fluboard/widgets/forecast_item.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 class ForecastWidget extends StatefulWidget {
@@ -52,7 +53,10 @@ class _ForecastWidgetState extends State<ForecastWidget> {
   }
 
   startTimer() {
-    timer = Timer.periodic(const Duration(hours: AppConfig.forecastRefresh), (timer) {
+    var box = Hive.box(AppConfig.dbSettings);
+    timer = Timer.periodic(
+        Duration(hours: box.get(AppConfig.forecastDoc, defaultValue: AppConfig.forecastRefresh)),
+        (timer) {
       Provider.of<ForecastProvider>(context, listen: false).getWeather();
     });
   }

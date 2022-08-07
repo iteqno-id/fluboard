@@ -18,7 +18,8 @@ class _SettingsButtonState extends State<SettingsButton> {
       child: visible
           ? InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()))
+                    .then((value) => setState(() {}));
               },
               child: Container(
                 margin: const EdgeInsets.all(4),
