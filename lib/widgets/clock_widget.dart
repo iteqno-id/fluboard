@@ -93,12 +93,4 @@ class _ClockWidgetState extends State<ClockWidget> {
       });
     });
   }
-
-  tick() {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        dateTime = DateTime.now();
-      });
-    });
-  }
 }

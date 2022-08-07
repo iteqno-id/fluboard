@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fluboard/constants/app_config.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:hive/hive.dart';
 
 class PhotoWidget extends StatefulWidget {
   const PhotoWidget({Key? key}) : super(key: key);
@@ -12,11 +13,19 @@ class PhotoWidget extends StatefulWidget {
 
 class _PhotoWidgetState extends State<PhotoWidget> {
   int selectedPhoto = 0;
+  late Timer timer;
+  var box = Hive.box(AppConfig.dbSettings);
 
   @override
   void initState() {
     tick();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -49,7 +58,9 @@ class _PhotoWidgetState extends State<PhotoWidget> {
   ];
 
   tick() {
-    Timer.periodic(const Duration(seconds: AppConfig.photoRefresh), (timer) {
+    timer = Timer.periodic(
+        Duration(seconds: box.get(AppConfig.photoDoc, defaultValue: AppConfig.photoRefresh)),
+        (timer) {
       if (selectedPhoto == photos.length - 1) {
         selectedPhoto = 0;
       } else {

@@ -3,6 +3,7 @@ import 'package:fluboard/widgets/calendar_widget.dart';
 import 'package:fluboard/widgets/clock_widget.dart';
 import 'package:fluboard/widgets/photo_widget.dart';
 import 'package:fluboard/widgets/right_gradient.dart';
+import 'package:fluboard/widgets/settings_button.dart';
 import 'package:fluboard/widgets/top_gradient.dart';
 import 'package:fluboard/widgets/weather_widget.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,11 @@ class HomeScreen extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
+                const Positioned(
+                  right: 4,
+                  top: 2,
+                  child: SettingsButton(),
+                )
               ],
             ),
           ),

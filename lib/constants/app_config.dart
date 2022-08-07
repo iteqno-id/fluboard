@@ -8,4 +8,10 @@ class AppConfig {
   static const int photoRefresh = 30; //seconds
   static const int currentWeatherRefresh = 30; //minutes
   static const int forecastRefresh = 1; //hours
+
+  // database
+  static const String dbSettings = "dbConfig";
+  static const String photoDoc = "photoDoc";
+  static const String currentWeatherDoc = "currentWeatherDoc";
+  static const String forecastDoc = "forecastDoc";
 }

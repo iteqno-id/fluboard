@@ -5,6 +5,7 @@ import 'package:fluboard/data/model/common/result_state.dart';
 import 'package:fluboard/data/provider/forecast_provider.dart';
 import 'package:fluboard/widgets/forecast_item.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 class ForecastWidget extends StatefulWidget {
@@ -15,6 +16,20 @@ class ForecastWidget extends StatefulWidget {
 }
 
 class _ForecastWidgetState extends State<ForecastWidget> {
+  late Timer timer;
+
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ForecastProvider>(
@@ -37,8 +52,11 @@ class _ForecastWidgetState extends State<ForecastWidget> {
     );
   }
 
-  tick() {
-    Timer.periodic(const Duration(hours: AppConfig.forecastRefresh), (timer) {
+  startTimer() {
+    var box = Hive.box(AppConfig.dbSettings);
+    timer = Timer.periodic(
+        Duration(hours: box.get(AppConfig.forecastDoc, defaultValue: AppConfig.forecastRefresh)),
+        (timer) {
       Provider.of<ForecastProvider>(context, listen: false).getWeather();
     });
   }

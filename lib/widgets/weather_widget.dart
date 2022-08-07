@@ -29,17 +29,6 @@ class WeatherWidget extends StatelessWidget {
             return Center(child: Text(provider.message));
           }
         },
-        // child: Row(
-        //   crossAxisAlignment: CrossAxisAlignment.end,
-        //   children: const [
-        //     MainWeatherItem(icon: CupertinoIcons.cloud_bolt_rain, temp: 25, windSpeed: 7),
-        //     Spacer(),
-        //     WeatherItem(day: "FRI", temp: 29, icon: CupertinoIcons.cloud_drizzle),
-        //     WeatherItem(day: "SAT", temp: 30, icon: CupertinoIcons.sun_max),
-        //     WeatherItem(day: "SUN", temp: 29, icon: CupertinoIcons.cloud_sun_bolt),
-        //     WeatherItem(day: "MON", temp: 29, icon: CupertinoIcons.cloud_sun),
-        //   ],
-        // ),
       ),
     );
   }
