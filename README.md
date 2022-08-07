@@ -7,7 +7,8 @@ Build calendar board ([DAKBoard alternative](https://dakboard.com/)) which easy 
 
 ## Screenshots
 
-![Desktop View](https://user-images.githubusercontent.com/343957/182866520-7c724582-0237-4498-b923-6f0208850a5f.png)
+![Desktop](https://user-images.githubusercontent.com/343957/183285085-c9bc1080-affd-458d-902e-28d7fd393cff.png)
+
 <img width="806" alt="Desktop Screen" src="https://user-images.githubusercontent.com/343957/182877109-97d8d6a4-814e-40d2-b1b4-640249dce2e8.png">
 
 ## Setup
