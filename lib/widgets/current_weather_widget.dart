@@ -16,10 +16,18 @@ class CurrentWeatherWidget extends StatefulWidget {
 }
 
 class _CurrentWeatherWidgetState extends State<CurrentWeatherWidget> {
+  late Timer timer;
+
   @override
   void initState() {
-    tick();
+    startTimer();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -90,8 +98,8 @@ class _CurrentWeatherWidgetState extends State<CurrentWeatherWidget> {
     );
   }
 
-  tick() {
-    Timer.periodic(const Duration(minutes: AppConfig.currentWeatherRefresh), (timer) {
+  startTimer() {
+    timer = Timer.periodic(const Duration(minutes: AppConfig.currentWeatherRefresh), (timer) {
       Provider.of<CurrentWeatherProvider>(context, listen: false).getCurrentWeather();
     });
   }

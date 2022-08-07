@@ -15,6 +15,20 @@ class ForecastWidget extends StatefulWidget {
 }
 
 class _ForecastWidgetState extends State<ForecastWidget> {
+  late Timer timer;
+
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ForecastProvider>(
@@ -37,8 +51,8 @@ class _ForecastWidgetState extends State<ForecastWidget> {
     );
   }
 
-  tick() {
-    Timer.periodic(const Duration(hours: AppConfig.forecastRefresh), (timer) {
+  startTimer() {
+    timer = Timer.periodic(const Duration(hours: AppConfig.forecastRefresh), (timer) {
       Provider.of<ForecastProvider>(context, listen: false).getWeather();
     });
   }
