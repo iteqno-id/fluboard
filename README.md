@@ -11,6 +11,9 @@ Build calendar board ([DAKBoard alternative](https://dakboard.com/)) which easy 
 
 <img width="806" alt="Desktop Screen" src="https://user-images.githubusercontent.com/343957/182877109-97d8d6a4-814e-40d2-b1b4-640249dce2e8.png">
 
+![Settings Screen](https://user-images.githubusercontent.com/343957/183296045-63edd95a-afaa-4cb1-968e-8f65217f01ce.png)
+
+
 ## Setup
 Don't forget to create `````.env````` file in the ```root``` folder and put some configuration variables as follows:
 ```dotenv
