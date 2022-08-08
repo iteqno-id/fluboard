@@ -3,8 +3,8 @@ import 'package:fluboard/data/model/open_weather/current_weather.dart';
 import 'package:fluboard/data/model/open_weather/forecast.dart';
 
 abstract class OpenWeatherDatasource {
-  Future<Forecast> getForecast(String city);
-  Future<CurrentWeather> getCurrentWeather(String city);
+  Future<Forecast> getForecast(String city, String units);
+  Future<CurrentWeather> getCurrentWeather(String city, String units);
 }
 
 class OpenWeatherDatasourceImpl extends OpenWeatherDatasource {
@@ -13,9 +13,10 @@ class OpenWeatherDatasourceImpl extends OpenWeatherDatasource {
   final OpenWeatherService openWeatherService;
 
   @override
-  Future<Forecast> getForecast(String city) => openWeatherService.getForecast(city);
+  Future<Forecast> getForecast(String city, String units) =>
+      openWeatherService.getForecast(city, units);
 
   @override
-  Future<CurrentWeather> getCurrentWeather(String city) =>
-      openWeatherService.getCurrentWeather(city);
+  Future<CurrentWeather> getCurrentWeather(String city, String units) =>
+      openWeatherService.getCurrentWeather(city, units);
 }

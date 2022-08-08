@@ -13,7 +13,7 @@ class Wind {
     return Wind(
       speed: double.parse('${json["speed"]}'),
       deg: json["deg"] ?? 0,
-      gust: double.parse('${json["gust"]}'),
+      gust: double.parse('${json["gust"] ?? "0"}'),
     );
   }
 

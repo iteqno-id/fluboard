@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:fluboard/constants/app_config.dart';
+import 'package:fluboard/data/datasource/repository/app_repository.dart';
+import 'package:fluboard/di/injector.dart';
 import 'package:fluboard/utils/extension.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +16,7 @@ class ClockWidget extends StatefulWidget {
 class _ClockWidgetState extends State<ClockWidget> {
   DateTime dateTime = DateTime.now();
   late Timer timer;
+  final repository = getIt<AppRepository>();
 
   @override
   void initState() {
@@ -35,7 +39,9 @@ class _ClockWidgetState extends State<ClockWidget> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            dateTime.ashmm(),
+            repository.getConfig(AppConfig.hourFormatBox, 12) == 12
+                ? dateTime.ashmm()
+                : dateTime.asHHMM(),
             style: TextStyle(fontSize: 64, color: Colors.white, shadows: _buildShadow()),
           ),
           Container(
@@ -48,7 +54,7 @@ class _ClockWidgetState extends State<ClockWidget> {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  dateTime.asAmPm(),
+                  repository.getConfig(AppConfig.hourFormatBox, 12) == 12 ? dateTime.asAmPm() : "",
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(shadows: _buildShadow()),
                 ),
               ],

@@ -1,7 +1,4 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 class AppConfig {
-  static String openWeatherApiKey = dotenv.get('OPEN_WEATHER_API_KEY');
   static const String openWeatherApiDomain = "api.openweathermap.org";
   static const String openWeatherIconUrl = "https://openweathermap.org/img/wn/";
   static const String units = "metric"; //metric, imperial
@@ -14,4 +11,8 @@ class AppConfig {
   static const String photoDoc = "photoDoc";
   static const String currentWeatherDoc = "currentWeatherDoc";
   static const String forecastDoc = "forecastDoc";
+  static const String unitsBox = "unitBox";
+  static const String cityBox = "cityBox";
+  static const String hourFormatBox = "hourFormatBox";
+  static const String openWeatherApiBox = "openWeatherApiBox";
 }
