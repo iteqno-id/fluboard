@@ -21,10 +21,10 @@ class Main {
 
   factory Main.fromJson(Map<String, dynamic> json) {
     return Main(
-      temp: json["temp"] ?? 0.toDouble(),
-      feelsLike: json["feels_like"] ?? 0.toDouble(),
-      tempMin: json["temp_min"] ?? 0.toDouble(),
-      tempMax: json["temp_max"] ?? 0.toDouble(),
+      temp: double.parse(json["temp"].toString()),
+      feelsLike: double.parse(json["feels_like"].toString()),
+      tempMin: double.parse(json["temp_min"].toString()),
+      tempMax: double.parse(json["temp_max"].toString()),
       pressure: json["pressure"] ?? 0,
       humidity: json["humidity"] ?? 0,
       seaLevel: json["sea_level"] ?? 0,

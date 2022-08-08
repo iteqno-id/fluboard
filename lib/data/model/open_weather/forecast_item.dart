@@ -47,11 +47,11 @@ class ForecastItem {
       weather: json["weather"] == null
           ? []
           : List<Weather>.from(json["weather"].map((x) => Weather.fromJson(x))),
-      speed: json["speed"] ?? 0.toDouble(),
+      speed: double.parse('${json["speed"]}'),
       deg: json["deg"] ?? 0,
-      gust: json["gust"] ?? 0.toDouble(),
+      gust: double.parse('${json["gust"]}'),
       clouds: json["clouds"] ?? 0,
-      pop: json["pop"] ?? 0.toDouble(),
+      pop: double.parse('${json["pop"]}'),
       rain: double.parse('${json["rain"]}'),
     );
   }
