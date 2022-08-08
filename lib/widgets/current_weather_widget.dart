@@ -62,7 +62,7 @@ class _CurrentWeatherWidgetState extends State<CurrentWeatherWidget> {
                   children: [
                     const Icon(CupertinoIcons.thermometer),
                     const SizedBox(width: 4),
-                    Text("${weather.main.temp}\u00B0"),
+                    Text("${weather.main.tempRound()}\u00B0"),
                   ],
                 ),
                 const SizedBox(height: 4),
@@ -70,7 +70,7 @@ class _CurrentWeatherWidgetState extends State<CurrentWeatherWidget> {
                   children: [
                     const Icon(CupertinoIcons.thermometer),
                     const SizedBox(width: 4),
-                    Text("${weather.main.feelsLike}\u00B0 feels"),
+                    Text("${weather.main.feelsLikeRound()}\u00B0 feels"),
                   ],
                 ),
                 const SizedBox(height: 4),

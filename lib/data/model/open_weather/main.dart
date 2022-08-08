@@ -42,4 +42,7 @@ class Main {
         "sea_level": seaLevel,
         "grnd_level": grndLevel,
       };
+
+  int tempRound() => temp.round().toInt();
+  int feelsLikeRound() => feelsLike.round().toInt();
 }
