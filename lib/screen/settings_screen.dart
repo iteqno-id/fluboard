@@ -89,7 +89,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ListTile(
         leading: const Icon(CupertinoIcons.globe),
         title: const Text('Localization'),
-        trailing: const Text("id_ID"),
+        trailing: const Text("en_US"),
         onTap: () => _showUnderConstruction(),
       ),
       ListTile(
