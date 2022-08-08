@@ -1,10 +1,13 @@
 import 'package:fluboard/constants/app_config.dart';
+import 'package:fluboard/data/datasource/repository/app_repository.dart';
+import 'package:fluboard/di/injector.dart';
 import 'package:fluboard/screen/home_screen.dart';
 import 'package:fluboard/utils/extension.dart';
 import 'package:fluboard/widgets/number_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -15,15 +18,10 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final box = Hive.box(AppConfig.dbSettings);
-  TextEditingController photoRefreshController = TextEditingController();
-  TextEditingController weatherRefreshController = TextEditingController();
-  TextEditingController forecastRefreshController = TextEditingController();
+  AppRepository repository = getIt<AppRepository>();
 
   @override
   void dispose() {
-    photoRefreshController.dispose();
-    weatherRefreshController.dispose();
-    forecastRefreshController.dispose();
     super.dispose();
   }
 
@@ -38,9 +36,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
         onTap: () => _showNumberSetting(
           AppConfig.photoDoc,
           "Photo Refresh",
-          photoRefreshController,
+          AppConfig.photoRefresh,
           suffixText: "seconds",
         ),
+      ),
+      ListTile(
+        leading: const Icon(CupertinoIcons.building_2_fill),
+        title: const Text('City location'),
+        trailing: Text(repository.getConfig(AppConfig.cityBox, "Jakarta")),
+        onTap: () => _showStringSetting(AppConfig.cityBox, "City Location"),
       ),
       ListTile(
         leading: const Icon(CupertinoIcons.cloud_sun_rain),
@@ -51,7 +55,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         onTap: () => _showNumberSetting(
           AppConfig.currentWeatherDoc,
           "Weather Refresh",
-          weatherRefreshController,
+          AppConfig.currentWeatherRefresh,
           suffixText: "minutes",
         ),
       ),
@@ -65,15 +69,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
         onTap: () => _showNumberSetting(
           AppConfig.forecastDoc,
           "Forecast Refresh",
-          forecastRefreshController,
+          AppConfig.forecastRefresh,
           suffixText: "hour(s)",
         ),
       ),
       ListTile(
+        leading: const Icon(CupertinoIcons.thermometer),
+        title: const Text('Units'),
+        trailing: Text(
+            toBeginningOfSentenceCase(repository.getConfig<String>(AppConfig.unitsBox, "metric"))!),
+        onTap: () => _showUnits(),
+      ),
+      ListTile(
         leading: const Icon(CupertinoIcons.clock),
         title: const Text('Hour format'),
-        trailing: const Text("12 hours"),
-        onTap: () => _showUnderConstruction(),
+        trailing: Text("${repository.getConfig(AppConfig.hourFormatBox, 12)} hours"),
+        onTap: () => _showHourFormat(),
       ),
       ListTile(
         leading: const Icon(CupertinoIcons.globe),
@@ -98,7 +109,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       ListTile(
         leading: const Icon(CupertinoIcons.photo),
-        title: const Text('Google Photo'),
+        title: const Text('Google Photos'),
         trailing: Text('fluboard@gmail.com'),
         onTap: () => _showUnderConstruction(),
       ),
@@ -175,8 +186,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  _showNumberSetting(String key, String title, TextEditingController controller,
-      {String suffixText = ""}) {
+  _showNumberSetting(String key, String title, int defaultValue, {String suffixText = ""}) {
+    TextEditingController controller = TextEditingController();
+    controller.text = repository.getConfig<int>(key, defaultValue).toString();
     showCupertinoDialog(
       context: context,
       barrierDismissible: true,
@@ -204,6 +216,110 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: const Text('Cancel'),
           ),
         ],
+      ),
+    );
+  }
+
+  _showStringSetting(String key, String title) {
+    TextEditingController controller = TextEditingController();
+    controller.text = repository.getConfig<String>(key, "Jakarta, Indonesia");
+    showCupertinoDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => CupertinoAlertDialog(
+        title: Text(title),
+        content: Container(
+          margin: const EdgeInsets.all(16),
+          child: CupertinoTextField(
+            controller: controller,
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
+        actions: [
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            onPressed: () {
+              repository.setConfig(key, controller.text);
+              Navigator.pop(context, () => setState(() {}));
+            },
+            child: const Text('Save'),
+          ),
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _showHourFormat() {
+    final currentFormat = repository.getConfig(AppConfig.hourFormatBox, 12);
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) => CupertinoActionSheet(
+        title: const Text("Hour Format"),
+        actions: [
+          CupertinoActionSheetAction(
+            isDefaultAction: currentFormat == 12,
+            onPressed: () {
+              repository.setConfig(AppConfig.hourFormatBox, 12);
+              Navigator.pop(context);
+            },
+            child: const Text('12 hours (AM/PM)'),
+          ),
+          CupertinoActionSheetAction(
+            isDefaultAction: currentFormat == 24,
+            onPressed: () {
+              repository.setConfig(AppConfig.hourFormatBox, 24);
+              Navigator.pop(context);
+            },
+            child: const Text('24 hours'),
+          ),
+        ],
+        cancelButton: CupertinoDialogAction(
+          isDefaultAction: true,
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
+      ),
+    );
+  }
+
+  _showUnits() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) => CupertinoActionSheet(
+        title: const Text("Units"),
+        actions: [
+          CupertinoActionSheetAction(
+            onPressed: () {
+              repository.setConfig(AppConfig.unitsBox, "standard");
+              Navigator.pop(context);
+            },
+            child: const Text('Standard (Kelvin, Meter)'),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              repository.setConfig(AppConfig.unitsBox, "metric");
+              Navigator.pop(context);
+            },
+            child: const Text('Metric (Celsius, Meter)'),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              repository.setConfig(AppConfig.unitsBox, "imperial");
+              Navigator.pop(context);
+            },
+            child: const Text('Imperial (Fahrenheit, Mile)'),
+          ),
+        ],
+        cancelButton: CupertinoDialogAction(
+          isDefaultAction: true,
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
       ),
     );
   }

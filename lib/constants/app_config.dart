@@ -14,4 +14,7 @@ class AppConfig {
   static const String photoDoc = "photoDoc";
   static const String currentWeatherDoc = "currentWeatherDoc";
   static const String forecastDoc = "forecastDoc";
+  static const String unitsBox = "unitBox";
+  static const String cityBox = "cityBox";
+  static const String hourFormatBox = "hourFormatBox";
 }

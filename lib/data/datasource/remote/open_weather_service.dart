@@ -6,20 +6,20 @@ import 'package:fluboard/data/model/open_weather/current_weather.dart';
 import 'package:fluboard/data/model/open_weather/forecast.dart';
 
 class OpenWeatherService {
-  Future<Forecast> getForecast(String city) async {
+  Future<Forecast> getForecast(String city, String units) async {
     final response = await HttpClient.get(
       AppConfig.openWeatherApiDomain,
       '/data/2.5/forecast/daily',
-      query: {"q": city, "appid": AppConfig.openWeatherApiKey, "units": AppConfig.units},
+      query: {"q": city, "appid": AppConfig.openWeatherApiKey, "units": units},
     );
     return Forecast.fromJson(jsonDecode(response.data));
   }
 
-  Future<CurrentWeather> getCurrentWeather(String city) async {
+  Future<CurrentWeather> getCurrentWeather(String city, String units) async {
     final response = await HttpClient.get(
       AppConfig.openWeatherApiDomain,
       '/data/2.5/weather',
-      query: {"q": city, "appid": AppConfig.openWeatherApiKey, "units": AppConfig.units},
+      query: {"q": city, "appid": AppConfig.openWeatherApiKey, "units": units},
     );
     return CurrentWeather.fromJson(jsonDecode(response.data));
   }

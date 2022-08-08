@@ -52,7 +52,7 @@ class ForecastItem {
       gust: double.parse('${json["gust"]}'),
       clouds: json["clouds"] ?? 0,
       pop: double.parse('${json["pop"]}'),
-      rain: double.parse('${json["rain"]}'),
+      rain: double.parse('${json["rain"] ?? "0"}'),
     );
   }
 
