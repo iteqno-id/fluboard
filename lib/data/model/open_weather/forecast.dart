@@ -18,7 +18,7 @@ class Forecast {
 
   factory Forecast.fromJson(Map<String, dynamic> json) {
     return Forecast(
-      cod: json["cod"] ?? "",
+      cod: '${json["cod"]}',
       message: json["message"].toString(),
       cnt: json["cnt"] ?? 0,
       list: json["list"] == null

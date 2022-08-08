@@ -44,7 +44,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         leading: const Icon(CupertinoIcons.building_2_fill),
         title: const Text('City location'),
         trailing: Text(repository.getConfig(AppConfig.cityBox, "Jakarta")),
-        onTap: () => _showStringSetting(AppConfig.cityBox, "City Location"),
+        onTap: () => _showStringSetting(AppConfig.cityBox, "City Location",
+            defaultValue: "Jakarta, Indonesia"),
       ),
       ListTile(
         leading: const Icon(CupertinoIcons.cloud_sun_rain),
@@ -105,7 +106,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         leading: const Icon(CupertinoIcons.cloud_sun),
         title: const Text('Open Weather'),
         trailing: Icon(Icons.chevron_right),
-        onTap: () => _showUnderConstruction(),
+        onTap: () => _showStringSetting(AppConfig.openWeatherApiBox, "Open Weather API"),
       ),
       ListTile(
         leading: const Icon(CupertinoIcons.photo),
@@ -220,9 +221,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  _showStringSetting(String key, String title) {
+  _showStringSetting(String key, String title, {String defaultValue = ""}) {
     TextEditingController controller = TextEditingController();
-    controller.text = repository.getConfig<String>(key, "Jakarta, Indonesia");
+    controller.text = repository.getConfig<String>(key, defaultValue);
     showCupertinoDialog(
       context: context,
       barrierDismissible: true,
@@ -251,7 +252,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ],
       ),
-    );
+    ).then((value) => controller.dispose());
   }
 
   _showHourFormat() {

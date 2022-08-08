@@ -6,7 +6,6 @@ import 'package:fluboard/data/provider/forecast_provider.dart';
 import 'package:fluboard/di/injector.dart' as injector;
 import 'package:fluboard/screen/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
@@ -14,7 +13,6 @@ import 'package:window_manager/window_manager.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   injector.init();
-  dotenv.load(fileName: '.env');
   await Hive.initFlutter();
   await Hive.openBox(AppConfig.dbSettings);
 
