@@ -26,7 +26,7 @@ CITY="Your city name, e.g: Serpong, Banten"
 - [ ] Integration with Google Calendar
 - [ ] Integration with Google Todo
 - [ ] integration with Google Photo
-- [ ] Provide settings screen
+- [x] Provide settings screen
 - [ ] Portrait mode
 - [ ] Customizable skin/theme
 - [ ] Localization
