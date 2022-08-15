@@ -1,7 +1,7 @@
 import 'package:fluboard/constants/app_config.dart';
-import 'package:fluboard/data/datasource/repository/app_repository.dart';
 import 'package:fluboard/data/model/common/result_state.dart';
 import 'package:fluboard/data/model/open_weather/forecast.dart';
+import 'package:fluboard/data/repository/app_repository.dart';
 import 'package:fluboard/di/injector.dart';
 import 'package:flutter/foundation.dart';
 
