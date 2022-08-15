@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:fluboard/constants/app_config.dart';
-import 'package:fluboard/data/datasource/repository/app_repository.dart';
+import 'package:fluboard/data/repository/app_repository.dart';
 import 'package:fluboard/di/injector.dart';
 import 'package:fluboard/utils/extension.dart';
 import 'package:flutter/material.dart';

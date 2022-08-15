@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class AppConfig {
   static const String openWeatherApiDomain = "api.openweathermap.org";
   static const String openWeatherIconUrl = "https://openweathermap.org/img/wn/";
@@ -15,4 +17,17 @@ class AppConfig {
   static const String cityBox = "cityBox";
   static const String hourFormatBox = "hourFormatBox";
   static const String openWeatherApiBox = "openWeatherApiBox";
+  static const String refreshToken = "refreshToken";
+  static const String accessToken = "accessToken";
+
+  // Firebase & account related
+  static String clientId = dotenv.env['AUTH_CLIENT_ID'] ?? "";
+  static String clientSecret = dotenv.env['AUTH_CLIENT_SECRET'] ?? "";
+  static const List<String> googleScope = [
+    'https://www.googleapis.com/auth/photoslibrary.readonly',
+    'https://www.googleapis.com/auth/calendar.readonly',
+    'https://www.googleapis.com/auth/tasks.readonly',
+    'profile',
+    'email'
+  ];
 }

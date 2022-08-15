@@ -1,6 +1,7 @@
 import 'package:fluboard/constants/app_config.dart';
-import 'package:fluboard/data/datasource/repository/app_repository.dart';
+import 'package:fluboard/data/repository/app_repository.dart';
 import 'package:fluboard/di/injector.dart';
+import 'package:fluboard/screen/account_screen.dart';
 import 'package:fluboard/screen/home_screen.dart';
 import 'package:fluboard/utils/extension.dart';
 import 'package:fluboard/widgets/number_field.dart';
@@ -105,26 +106,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ListTile(
         leading: const Icon(CupertinoIcons.cloud_sun),
         title: const Text('Open Weather'),
-        trailing: Icon(Icons.chevron_right),
+        trailing: const Icon(Icons.chevron_right),
         onTap: () => _showStringSetting(AppConfig.openWeatherApiBox, "Open Weather API"),
       ),
       ListTile(
         leading: const Icon(CupertinoIcons.photo),
-        title: const Text('Google Photos'),
-        trailing: Text('fluboard@gmail.com'),
-        onTap: () => _showUnderConstruction(),
-      ),
-      ListTile(
-        leading: const Icon(CupertinoIcons.calendar),
-        title: const Text('Google Calendar'),
-        trailing: Text('fluboard@gmail.com'),
-        onTap: () => _showUnderConstruction(),
-      ),
-      ListTile(
-        leading: const Icon(CupertinoIcons.check_mark_circled),
-        title: const Text('Google Task'),
-        trailing: Text('fluboard@gmail.com'),
-        onTap: () => _showUnderConstruction(),
+        title: const Text('Google Account'),
+        trailing: const Text('fluboard@gmail.com'),
+        onTap: () =>
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const AccountScreen())),
       ),
     ];
 
