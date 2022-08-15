@@ -15,11 +15,13 @@ Build calendar board ([DAKBoard alternative](https://dakboard.com/)) which easy 
 
 
 ## Setup
-Don't forget to create `````.env````` file in the ```root``` folder and put some configuration variables as follows:
+Don't forget to create `.env` file in the `root` folder and put some configuration variables as follows:
 ```dotenv
-OPEN_WEATHER_API_KEY=your_open_weather_api_key
-CITY="Your city name, e.g: Serpong, Banten"
+AUTH_CLIENT_ID='....apps.googleusercontent.com'
+AUTH_CLIENT_SECRET='XXXX-asdfgh_.....'
 ```
+You can get `AUTH_CLIENT_ID` and `AUTH_CLIENT_SECRET` here [Google Cloud Console](https://console.cloud.google.com/apis/credentials). 
+Choose `Desktop` as application type. On OAuth consent screen, add your email as `Test users`. 
 
 ## Todo
 - [x] Integration with Open Weather

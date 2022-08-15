@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:fluboard/constants/app_config.dart';
 import 'package:fluboard/data/datasource/remote/http_client.dart';
-import 'package:fluboard/data/datasource/repository/app_repository.dart';
 import 'package:fluboard/data/model/open_weather/current_weather.dart';
 import 'package:fluboard/data/model/open_weather/forecast.dart';
+import 'package:fluboard/data/repository/app_repository.dart';
 import 'package:fluboard/di/injector.dart';
 
 class OpenWeatherService {
