@@ -1,8 +1,9 @@
+import 'package:fluboard/constants/app_config.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 part 'local_access_token.g.dart';
 
-@HiveType(typeId: 1)
+@HiveType(typeId: AppConfig.hiveTypeToken)
 class LocalAccessToken {
   LocalAccessToken({
     required this.type,

@@ -11,6 +11,7 @@ class AppConfig {
   // database
   static const String dbSettings = "dbConfig";
   static const String photoDoc = "photoDoc";
+  static const String photoBox = "photoBox";
   static const String currentWeatherDoc = "currentWeatherDoc";
   static const String forecastDoc = "forecastDoc";
   static const String unitsBox = "unitBox";
@@ -19,6 +20,13 @@ class AppConfig {
   static const String openWeatherApiBox = "openWeatherApiBox";
   static const String refreshToken = "refreshToken";
   static const String accessToken = "accessToken";
+  static const String albumId = "albumId";
+  static const String album = "album";
+
+  // Hive Type ID
+  static const int hiveTypeToken = 1;
+  static const int hiveTypeAlbum = 2;
+  static const int hiveTypePhoto = 3;
 
   // Firebase & account related
   static String clientId = dotenv.env['AUTH_CLIENT_ID'] ?? "";

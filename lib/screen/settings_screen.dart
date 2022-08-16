@@ -110,9 +110,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         onTap: () => _showStringSetting(AppConfig.openWeatherApiBox, "Open Weather API"),
       ),
       ListTile(
-        leading: const Icon(CupertinoIcons.photo),
+        leading: const Icon(CupertinoIcons.person_alt_circle),
         title: const Text('Google Account'),
-        trailing: const Text('fluboard@gmail.com'),
+        trailing: const Icon(Icons.chevron_right),
         onTap: () =>
             Navigator.push(context, MaterialPageRoute(builder: (_) => const AccountScreen())),
       ),
@@ -137,22 +137,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               margin: const EdgeInsets.symmetric(vertical: 16),
               child: Column(
                 children: [
-                  Text("General settings", style: Theme.of(context).textTheme.titleLarge),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(8)),
-                    margin: const EdgeInsets.all(16),
-                    padding: const EdgeInsets.all(16),
-                    child: ListView.separated(
-                        shrinkWrap: true,
-                        itemBuilder: (context, i) {
-                          return generalSettings[i];
-                        },
-                        separatorBuilder: (context, i) => const Divider(),
-                        itemCount: generalSettings.length),
-                  ),
-                  const SizedBox(height: 8),
                   Text("Account settings", style: Theme.of(context).textTheme.titleLarge),
                   Container(
                     width: MediaQuery.of(context).size.width / 3,
@@ -167,6 +151,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         },
                         separatorBuilder: (context, i) => const Divider(),
                         itemCount: accountSettings.length),
+                  ),
+                  const SizedBox(height: 8),
+                  Text("General settings", style: Theme.of(context).textTheme.titleLarge),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 3,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(8)),
+                    margin: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
+                    child: ListView.separated(
+                        shrinkWrap: true,
+                        itemBuilder: (context, i) {
+                          return generalSettings[i];
+                        },
+                        separatorBuilder: (context, i) => const Divider(),
+                        itemCount: generalSettings.length),
                   ),
                 ],
               ),

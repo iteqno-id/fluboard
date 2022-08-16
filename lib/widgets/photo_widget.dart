@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:fluboard/constants/app_config.dart';
+import 'package:fluboard/data/model/google/photo_item.dart';
+import 'package:fluboard/data/repository/app_repository.dart';
+import 'package:fluboard/di/injector.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:hive/hive.dart';
 
 class PhotoWidget extends StatefulWidget {
   const PhotoWidget({Key? key}) : super(key: key);
@@ -12,13 +14,16 @@ class PhotoWidget extends StatefulWidget {
 }
 
 class _PhotoWidgetState extends State<PhotoWidget> {
-  int selectedPhoto = 0;
+  final repo = getIt<AppRepository>();
+  late PhotoItem selectedPhoto;
   late Timer timer;
-  var box = Hive.box(AppConfig.dbSettings);
+  int dummy = 0;
 
   @override
   void initState() {
     tick();
+    selectedPhoto = repo.getRandomPhoto() ??
+        PhotoItem("1", "https://images.unsplash.com/photo-1559494007-9f5847c49d94?", "", "", "");
     super.initState();
   }
 
@@ -31,7 +36,7 @@ class _PhotoWidgetState extends State<PhotoWidget> {
   @override
   Widget build(BuildContext context) {
     return Image.network(
-      "${photos[selectedPhoto]}?w=987&q=80",
+      selectedPhoto.photoLarge(),
       fit: BoxFit.cover,
       height: MediaQuery.of(context).size.height,
       loadingBuilder: (context, child, loadingProgress) {
@@ -59,12 +64,12 @@ class _PhotoWidgetState extends State<PhotoWidget> {
 
   tick() {
     timer = Timer.periodic(
-        Duration(seconds: box.get(AppConfig.photoDoc, defaultValue: AppConfig.photoRefresh)),
-        (timer) {
-      if (selectedPhoto == photos.length - 1) {
-        selectedPhoto = 0;
+        Duration(seconds: repo.getConfig(AppConfig.photoDoc, AppConfig.photoRefresh)), (timer) {
+      selectedPhoto = repo.getRandomPhoto() ?? PhotoItem("", "${photos[0]}?", "", "", "");
+      if (dummy < photos.length) {
+        dummy++;
       } else {
-        selectedPhoto++;
+        dummy = 0;
       }
       setState(() {});
     });
