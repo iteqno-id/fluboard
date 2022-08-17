@@ -1,4 +1,5 @@
 import 'package:fluboard/constants/app_config.dart';
+import 'package:googleapis_auth/googleapis_auth.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 part 'local_access_token.g.dart';
@@ -27,6 +28,12 @@ class LocalAccessToken {
       expiry: DateTime.parse(json["expiry"]),
     );
   }
+
+  factory LocalAccessToken.fromAccessCredential(AccessToken token) => LocalAccessToken(
+        type: token.type,
+        data: token.data,
+        expiry: token.expiry,
+      );
 
   Map<String, dynamic> toJson() => {
         "type": type,

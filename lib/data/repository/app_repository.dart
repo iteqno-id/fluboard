@@ -1,3 +1,4 @@
+import 'package:fluboard/constants/app_config.dart';
 import 'package:fluboard/data/datasource/google_datasource.dart';
 import 'package:fluboard/data/datasource/local_datasource.dart';
 import 'package:fluboard/data/datasource/open_weather_datasource.dart';
@@ -19,6 +20,13 @@ class AppRepository {
   List<PhotoItem> getLocalPhotos() => database.getLocalPhotos();
   Future<void> addAllPhotos(List<PhotoItem> photos) => database.addPhotoAll(photos);
   PhotoItem? getRandomPhoto() => database.getRandomPhoto();
+  Future<bool> refreshPhoto() async {
+    final albumId = database.getConfig<String>(AppConfig.albumId, "");
+    final photosOnline = await googleDatasource.photoSearch(albumId);
+    final photos = photosOnline.mediaItems?.map((e) => PhotoItem.fromMediaItem(e)).toList() ?? [];
+    await database.addPhotoAll(photos);
+    return photos.isNotEmpty;
+  }
 
   Future<Forecast> getForecast(String city, String units) =>
       openWeatherDatasourceImpl.getForecast(city, units);

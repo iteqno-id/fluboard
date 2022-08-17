@@ -45,7 +45,21 @@ class _PhotoWidgetState extends State<PhotoWidget> {
         }
         return const Center(child: CupertinoActivityIndicator());
       },
+      errorBuilder: (context, Object e, StackTrace? stack) {
+        final error = e as NetworkImageLoadException;
+        print(error.statusCode);
+        print(error.uri.toString());
+        if (error.statusCode == 403) {
+          refreshPhoto();
+        }
+        return const Text('Error occurred');
+      },
     );
+  }
+
+  refreshPhoto() async {
+    await repo.refreshPhoto();
+    setState(() {});
   }
 
   List<String> photos = [
