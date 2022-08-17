@@ -1,6 +1,8 @@
 import 'package:fluboard/constants/app_config.dart';
 import 'package:fluboard/data/model/common/result_state.dart';
 import 'package:fluboard/data/model/google/local_access_token.dart';
+import 'package:fluboard/data/model/google/local_album.dart';
+import 'package:fluboard/data/model/google/photo_item.dart';
 import 'package:fluboard/data/provider/access_token_provider.dart';
 import 'package:fluboard/data/provider/people_provider.dart';
 import 'package:fluboard/data/repository/app_repository.dart';
@@ -18,7 +20,8 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  String url = '';
+  AppRepository repository = getIt<AppRepository>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,6 +81,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   ],
                 ),
               ),
+              _buildList(),
             ],
           );
         } else {
@@ -94,11 +98,10 @@ class _AccountScreenState extends State<AccountScreen> {
         const SizedBox(height: 16),
         ElevatedButton(
           onPressed: () {
-            var repo = getIt<AppRepository>();
-            repo.login((url) => launchUrl(Uri.parse(url))).then((value) {
+            repository.login((url) => launchUrl(Uri.parse(url))).then((value) {
               var accessToken = value.credentials.accessToken;
-              repo.setConfig(AppConfig.refreshToken, value.credentials.refreshToken);
-              repo.setConfig(
+              repository.setConfig(AppConfig.refreshToken, value.credentials.refreshToken);
+              repository.setConfig(
                   AppConfig.accessToken,
                   LocalAccessToken(
                     type: accessToken.type,
@@ -138,9 +141,8 @@ class _AccountScreenState extends State<AccountScreen> {
           CupertinoDialogAction(
             isDestructiveAction: true,
             onPressed: () {
-              var repo = getIt<AppRepository>();
-              repo.setConfig(AppConfig.refreshToken, null);
-              repo.setConfig(AppConfig.accessToken, null);
+              repository.setConfig(AppConfig.refreshToken, null);
+              repository.setConfig(AppConfig.accessToken, null);
               Navigator.pop(context);
               Provider.of<AccessTokenProvider>(context, listen: false).getAccessToken();
             },
@@ -149,5 +151,87 @@ class _AccountScreenState extends State<AccountScreen> {
         ],
       ),
     );
+  }
+
+  _chooseAlbum() async {
+    _showLoading();
+    final currentAlbum = repository.getConfig<LocalAlbum?>(AppConfig.album, null) as LocalAlbum?;
+    final albums = await repository.getAlbums();
+    Navigator.pop(context);
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) => CupertinoActionSheet(
+        title: const Text("Choose Album"),
+        actions: albums.albums
+            ?.map((e) => CupertinoActionSheetAction(
+                  isDefaultAction: currentAlbum?.id == e.id,
+                  onPressed: () async {
+                    _showLoading();
+                    repository.setConfig(AppConfig.albumId, e.id);
+                    repository.setConfig(AppConfig.album, LocalAlbum.fromAlbum(e));
+                    final photosOnline = await repository.photoSearch(e.id!);
+                    final photos =
+                        photosOnline.mediaItems?.map((e) => PhotoItem.fromMediaItem(e)).toList();
+                    repository.addAllPhotos(photos!);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("${e.title} selected as slideshow album")));
+                  },
+                  child: Text(
+                    "${e.title}",
+                    style: TextStyle(color: currentAlbum?.id == e.id ? Colors.green : Colors.blue),
+                  ),
+                ))
+            .toList(),
+        cancelButton: CupertinoDialogAction(
+          isDefaultAction: true,
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
+      ),
+    );
+  }
+
+  _buildList() {
+    return Container(
+      width: MediaQuery.of(context).size.width / 3,
+      decoration:
+          BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(8)),
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
+      child: ListView.separated(
+          shrinkWrap: true,
+          itemBuilder: (context, i) {
+            return ListTile(
+              leading: const Icon(CupertinoIcons.photo),
+              title: const Text('Album'),
+              trailing: Text(
+                  (repository.getConfig<LocalAlbum?>(AppConfig.album, null) as LocalAlbum?)
+                          ?.title ??
+                      'Choose Album'),
+              onTap: () => _chooseAlbum(),
+            );
+          },
+          separatorBuilder: (context, i) => const Divider(),
+          itemCount: 1),
+    );
+  }
+
+  _showLoading() {
+    showCupertinoModalPopup(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => CupertinoAlertDialog(
+              content: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                  CupertinoActivityIndicator(),
+                  SizedBox(height: 8),
+                  Text('Please wait...'),
+                ],
+              ),
+            ));
   }
 }

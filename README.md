@@ -27,7 +27,7 @@ Choose `Desktop` as application type. On OAuth consent screen, add your email as
 - [x] Integration with Open Weather
 - [ ] Integration with Google Calendar
 - [ ] Integration with Google Todo
-- [ ] integration with Google Photo
+- [x] Integration with Google Photo
 - [x] Provide settings screen
 - [ ] Portrait mode
 - [ ] Customizable skin/theme
