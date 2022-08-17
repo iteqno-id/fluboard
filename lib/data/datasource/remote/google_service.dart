@@ -18,7 +18,9 @@ class GoogleService {
         await repo.getConfig<LocalAccessToken?>(AppConfig.accessToken, null) as LocalAccessToken;
     var accessToken = AccessToken(token.type, token.data, token.expiry);
     var refreshToken = await repo.getConfig(AppConfig.refreshToken, "");
-    return refreshCredentials(ClientId(AppConfig.clientId, AppConfig.clientSecret),
+    var ac = await refreshCredentials(ClientId(AppConfig.clientId, AppConfig.clientSecret),
         AccessCredentials(accessToken, refreshToken, AppConfig.googleScope), http.Client());
+    repo.setConfig(AppConfig.accessToken, LocalAccessToken.fromAccessCredential(ac.accessToken));
+    return ac;
   }
 }

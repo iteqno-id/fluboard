@@ -41,7 +41,7 @@ class AccessTokenProvider extends ChangeNotifier {
           expiry: refresh.accessToken.expiry,
         );
         await repository.setConfig(AppConfig.accessToken, accessToken);
-        _state = ResultState.noData;
+        _state = ResultState.hasData;
         notifyListeners();
         return _accessToken = accessToken;
       }

@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:fluboard/constants/app_config.dart';
 import 'package:fluboard/data/model/google/local_access_token.dart';
+import 'package:fluboard/data/model/google/local_album.dart';
+import 'package:fluboard/data/model/google/photo_item.dart';
 import 'package:fluboard/data/provider/access_token_provider.dart';
 import 'package:fluboard/data/provider/current_weather_provider.dart';
 import 'package:fluboard/data/provider/forecast_provider.dart';
@@ -20,7 +22,10 @@ void main() async {
   injector.init();
   await Hive.initFlutter();
   Hive.registerAdapter(LocalAccessTokenAdapter());
+  Hive.registerAdapter(LocalAlbumAdapter());
+  Hive.registerAdapter(PhotoItemAdapter());
   await Hive.openBox(AppConfig.dbSettings);
+  await Hive.openBox<PhotoItem>(AppConfig.photoBox);
 
   if (Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
     await windowManager.ensureInitialized();
