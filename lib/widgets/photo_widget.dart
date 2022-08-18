@@ -58,8 +58,9 @@ class _PhotoWidgetState extends State<PhotoWidget> {
   }
 
   refreshPhoto() async {
-    await repo.refreshPhoto();
-    setState(() {});
+    repo.refreshPhoto().then((value) {
+      setState(() {});
+    });
   }
 
   List<String> photos = [
