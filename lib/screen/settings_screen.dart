@@ -7,6 +7,7 @@ import 'package:fluboard/utils/extension.dart';
 import 'package:fluboard/widgets/number_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:googleapis/people/v1.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
@@ -113,6 +114,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
         leading: const Icon(CupertinoIcons.person_alt_circle),
         title: const Text('Google Account'),
         trailing: const Icon(Icons.chevron_right),
+        subtitle: FutureBuilder<Person>(
+          future: repository.getUserInfo(),
+          builder: (BuildContext context, AsyncSnapshot<Person> snapshot) {
+            if (snapshot.hasData) {
+              return Text("${snapshot.data?.emailAddresses?.first.value}");
+            } else {
+              return Container();
+            }
+          },
+        ),
         onTap: () =>
             Navigator.push(context, MaterialPageRoute(builder: (_) => const AccountScreen())),
       ),
