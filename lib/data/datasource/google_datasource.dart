@@ -2,9 +2,11 @@ import 'package:fluboard/data/datasource/remote/google_calendar_service.dart';
 import 'package:fluboard/data/datasource/remote/google_people_service.dart';
 import 'package:fluboard/data/datasource/remote/google_photo_service.dart';
 import 'package:fluboard/data/datasource/remote/google_service.dart';
+import 'package:fluboard/data/datasource/remote/google_tasks_service.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'package:googleapis/people/v1.dart';
 import 'package:googleapis/photoslibrary/v1.dart';
+import 'package:googleapis/tasks/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
 abstract class GoogleDatasource {
@@ -18,16 +20,24 @@ abstract class GoogleDatasource {
   Future<CalendarList> getCalendars();
   Future<Calendar> getCalendarItems(String calendarId);
   Future<Events> getEvents(String calendarId, DateTime timeMin, DateTime timeMax);
+  Future<TaskLists> getTaskList();
+  Future<Tasks> getTasks(String taskListId);
 }
 
 class GoogleDatasourceImpl extends GoogleDatasource {
   GoogleDatasourceImpl(
-      this.googleService, this.peopleService, this.photoService, this.calendarService);
+    this.googleService,
+    this.peopleService,
+    this.photoService,
+    this.calendarService,
+    this.tasksService,
+  );
 
   final GoogleService googleService;
   final GooglePeopleService peopleService;
   final GooglePhotoService photoService;
   final GoogleCalendarService calendarService;
+  final GoogleTasksService tasksService;
 
   @override
   Future<AuthClient> login(Function(String url) callback) => googleService.login(callback);
@@ -60,4 +70,10 @@ class GoogleDatasourceImpl extends GoogleDatasource {
   @override
   Future<Events> getEvents(String calendarId, DateTime timeMin, DateTime timeMax) async =>
       await calendarService.getEvents(calendarId, timeMin, timeMax);
+
+  @override
+  Future<TaskLists> getTaskList() async => tasksService.getTaskLists();
+
+  @override
+  Future<Tasks> getTasks(String taskListId) => tasksService.getTasks(taskListId);
 }

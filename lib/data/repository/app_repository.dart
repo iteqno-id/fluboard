@@ -8,6 +8,7 @@ import 'package:fluboard/data/model/open_weather/forecast.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'package:googleapis/people/v1.dart';
 import 'package:googleapis/photoslibrary/v1.dart';
+import 'package:googleapis/tasks/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
 class AppRepository {
@@ -34,6 +35,9 @@ class AppRepository {
       await googleDatasource.getCalendarItems(calendarId);
   Future<Events> getEvents(String calendarId, DateTime timeMin, DateTime timeMax) async =>
       await googleDatasource.getEvents(calendarId, timeMin, timeMax);
+
+  Future<TaskLists> getTaskLists() async => googleDatasource.getTaskList();
+  Future<Tasks> getTasks(String taskListId) => googleDatasource.getTasks(taskListId);
 
   Future<Forecast> getForecast(String city, String units) =>
       openWeatherDatasourceImpl.getForecast(city, units);
