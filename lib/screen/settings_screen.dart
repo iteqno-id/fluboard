@@ -43,6 +43,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
       ListTile(
+        leading: const Icon(CupertinoIcons.calendar),
+        title: const Text('Calendar refresh'),
+        trailing: Text(
+            (box.get(AppConfig.calendarDoc, defaultValue: AppConfig.calendarRefresh) as int)
+                .pluralize("minutes")),
+        onTap: () => _showNumberSetting(
+          AppConfig.calendarDoc,
+          "Calendar Refresh",
+          AppConfig.calendarRefresh,
+          suffixText: "minutes",
+        ),
+      ),
+      ListTile(
         leading: const Icon(CupertinoIcons.building_2_fill),
         title: const Text('City location'),
         trailing: Text(repository.getConfig(AppConfig.cityBox, "Jakarta")),

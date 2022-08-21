@@ -22,6 +22,8 @@ class CalendarEventProvider extends ChangeNotifier {
     _getEvents();
   }
 
+  Future<dynamic> refreshCalendar() => _getEvents();
+
   Future<dynamic> _getEvents() async {
     _state = ResultState.loading;
     notifyListeners();

@@ -1,15 +1,40 @@
+import 'dart:async';
+
+import 'package:fluboard/constants/app_config.dart';
 import 'package:fluboard/data/model/calendar/meeting.dart';
 import 'package:fluboard/data/model/calendar/meeting_data_source.dart';
 import 'package:fluboard/data/model/common/event_parcel.dart';
 import 'package:fluboard/data/model/common/result_state.dart';
 import 'package:fluboard/data/provider/calendar_event_provider.dart';
+import 'package:fluboard/data/repository/app_repository.dart';
+import 'package:fluboard/di/injector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class CalendarWidget extends StatelessWidget {
+class CalendarWidget extends StatefulWidget {
   const CalendarWidget({Key? key}) : super(key: key);
+
+  @override
+  State<CalendarWidget> createState() => _CalendarWidgetState();
+}
+
+class _CalendarWidgetState extends State<CalendarWidget> {
+  final repo = getIt<AppRepository>();
+  late Timer timer;
+
+  @override
+  void initState() {
+    tick();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,5 +101,14 @@ class CalendarWidget extends StatelessWidget {
       }
     });
     return weekend;
+  }
+
+  tick() {
+    timer = Timer.periodic(
+        Duration(
+          minutes: repo.getConfig(AppConfig.calendarDoc, AppConfig.calendarRefresh),
+        ), (timer) {
+      Provider.of<CalendarEventProvider>(context, listen: false).refreshCalendar();
+    });
   }
 }
