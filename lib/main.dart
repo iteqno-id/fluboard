@@ -5,9 +5,11 @@ import 'package:fluboard/data/model/google/local_access_token.dart';
 import 'package:fluboard/data/model/google/local_album.dart';
 import 'package:fluboard/data/model/google/photo_item.dart';
 import 'package:fluboard/data/provider/access_token_provider.dart';
+import 'package:fluboard/data/provider/calendar_event_provider.dart';
 import 'package:fluboard/data/provider/current_weather_provider.dart';
 import 'package:fluboard/data/provider/forecast_provider.dart';
 import 'package:fluboard/data/provider/people_provider.dart';
+import 'package:fluboard/data/provider/photos_provider.dart';
 import 'package:fluboard/di/injector.dart' as injector;
 import 'package:fluboard/screen/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +50,8 @@ class MyApp extends StatelessWidget {
               ChangeNotifierProvider(create: (_) => CurrentWeatherProvider().getCurrentWeather()),
               ChangeNotifierProvider(create: (_) => AccessTokenProvider()),
               ChangeNotifierProvider(create: (_) => PeopleProvider()),
+              ChangeNotifierProvider(create: (_) => PhotosProvider()),
+              ChangeNotifierProvider(create: (_) => CalendarEventProvider()),
             ],
             child: MaterialApp(
               title: 'Fluboard',

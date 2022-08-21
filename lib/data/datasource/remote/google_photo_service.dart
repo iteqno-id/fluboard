@@ -7,6 +7,6 @@ class GooglePhotoService {
   Future<ListAlbumsResponse> getAlbums() => _service().albums.list(pageSize: 50);
   Future<Album> getAlbum(String albumId) => _service().albums.get(albumId);
   Future<ListSharedAlbumsResponse> getSharedAlbums() => _service().sharedAlbums.list();
-  Future<SearchMediaItemsResponse> search(String albumId) =>
-      _service().mediaItems.search(SearchMediaItemsRequest(albumId: albumId, pageSize: 100));
+  Future<SearchMediaItemsResponse> search(String albumId) async =>
+      await _service().mediaItems.search(SearchMediaItemsRequest(albumId: albumId, pageSize: 100));
 }

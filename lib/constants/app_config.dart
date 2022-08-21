@@ -7,6 +7,7 @@ class AppConfig {
   static const int photoRefresh = 30; //seconds
   static const int currentWeatherRefresh = 30; //minutes
   static const int forecastRefresh = 1; //hours
+  static const int calendarRefresh = 30; //minutes
 
   // database
   static const String dbSettings = "dbConfig";
@@ -14,6 +15,7 @@ class AppConfig {
   static const String photoBox = "photoBox";
   static const String currentWeatherDoc = "currentWeatherDoc";
   static const String forecastDoc = "forecastDoc";
+  static const String calendarDoc = "calendarDoc";
   static const String unitsBox = "unitBox";
   static const String cityBox = "cityBox";
   static const String hourFormatBox = "hourFormatBox";

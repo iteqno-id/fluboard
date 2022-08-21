@@ -5,6 +5,7 @@ import 'package:fluboard/data/datasource/open_weather_datasource.dart';
 import 'package:fluboard/data/model/google/photo_item.dart';
 import 'package:fluboard/data/model/open_weather/current_weather.dart';
 import 'package:fluboard/data/model/open_weather/forecast.dart';
+import 'package:googleapis/calendar/v3.dart';
 import 'package:googleapis/people/v1.dart';
 import 'package:googleapis/photoslibrary/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
@@ -27,6 +28,12 @@ class AppRepository {
     await database.addPhotoAll(photos);
     return photos.isNotEmpty;
   }
+
+  Future<CalendarList> getCalendars() async => await googleDatasource.getCalendars();
+  Future<Calendar> getCalendarItems(String calendarId) async =>
+      await googleDatasource.getCalendarItems(calendarId);
+  Future<Events> getEvents(String calendarId, DateTime timeMin, DateTime timeMax) async =>
+      await googleDatasource.getEvents(calendarId, timeMin, timeMax);
 
   Future<Forecast> getForecast(String city, String units) =>
       openWeatherDatasourceImpl.getForecast(city, units);

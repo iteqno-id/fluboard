@@ -1,6 +1,8 @@
+import 'package:fluboard/data/datasource/remote/google_calendar_service.dart';
 import 'package:fluboard/data/datasource/remote/google_people_service.dart';
 import 'package:fluboard/data/datasource/remote/google_photo_service.dart';
 import 'package:fluboard/data/datasource/remote/google_service.dart';
+import 'package:googleapis/calendar/v3.dart';
 import 'package:googleapis/people/v1.dart';
 import 'package:googleapis/photoslibrary/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
@@ -13,14 +15,19 @@ abstract class GoogleDatasource {
   Future<Album> getAlbum(String albumId);
   Future<SearchMediaItemsResponse> photoSearch(String albumId);
   Future<ListSharedAlbumsResponse> sharedAlbums();
+  Future<CalendarList> getCalendars();
+  Future<Calendar> getCalendarItems(String calendarId);
+  Future<Events> getEvents(String calendarId, DateTime timeMin, DateTime timeMax);
 }
 
 class GoogleDatasourceImpl extends GoogleDatasource {
-  GoogleDatasourceImpl(this.googleService, this.peopleService, this.photoService);
+  GoogleDatasourceImpl(
+      this.googleService, this.peopleService, this.photoService, this.calendarService);
 
   final GoogleService googleService;
   final GooglePeopleService peopleService;
   final GooglePhotoService photoService;
+  final GoogleCalendarService calendarService;
 
   @override
   Future<AuthClient> login(Function(String url) callback) => googleService.login(callback);
@@ -42,4 +49,15 @@ class GoogleDatasourceImpl extends GoogleDatasource {
 
   @override
   Future<ListSharedAlbumsResponse> sharedAlbums() => photoService.getSharedAlbums();
+
+  @override
+  Future<CalendarList> getCalendars() => calendarService.getCalendars();
+
+  @override
+  Future<Calendar> getCalendarItems(String calendarId) =>
+      calendarService.getCalendarItems(calendarId);
+
+  @override
+  Future<Events> getEvents(String calendarId, DateTime timeMin, DateTime timeMax) async =>
+      await calendarService.getEvents(calendarId, timeMin, timeMax);
 }

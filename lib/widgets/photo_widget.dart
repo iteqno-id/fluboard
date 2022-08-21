@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:fluboard/constants/app_config.dart';
+import 'package:fluboard/data/model/common/result_state.dart';
 import 'package:fluboard/data/model/google/photo_item.dart';
+import 'package:fluboard/data/provider/photos_provider.dart';
 import 'package:fluboard/data/repository/app_repository.dart';
 import 'package:fluboard/di/injector.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 class PhotoWidget extends StatefulWidget {
   const PhotoWidget({Key? key}) : super(key: key);
@@ -22,8 +26,6 @@ class _PhotoWidgetState extends State<PhotoWidget> {
   @override
   void initState() {
     tick();
-    selectedPhoto = repo.getRandomPhoto() ??
-        PhotoItem("1", "https://images.unsplash.com/photo-1559494007-9f5847c49d94?", "", "", "");
     super.initState();
   }
 
@@ -35,31 +37,61 @@ class _PhotoWidgetState extends State<PhotoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      selectedPhoto.photoLarge(),
-      fit: BoxFit.cover,
-      height: MediaQuery.of(context).size.height,
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
+    return Consumer<PhotosProvider>(
+      builder: (BuildContext context, provider, _) {
+        if (provider.state == ResultState.loading) {
+          return const Center(child: CupertinoActivityIndicator());
+        } else if (provider.state == ResultState.hasData) {
+          return Image.network(
+            provider.photo.photoLarge(),
+            fit: BoxFit.cover,
+            height: MediaQuery.of(context).size.height,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              }
+              return const Center(child: CupertinoActivityIndicator());
+            },
+            errorBuilder: (context, Object e, StackTrace? stack) {
+              final error = e as NetworkImageLoadException;
+              debugPrint(error.statusCode.toString());
+              debugPrint(error.uri.toString());
+              if (error.statusCode == 403) {
+                refreshPhoto();
+              }
+              return const Text('Error occurred');
+            },
+          );
+        } else {
+          return Center(
+            child: Image.network(
+              unsplashRandom().baseUrl,
+              fit: BoxFit.cover,
+              height: MediaQuery.of(context).size.height,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return const Center(child: CupertinoActivityIndicator());
+              },
+            ),
+          );
         }
-        return const Center(child: CupertinoActivityIndicator());
-      },
-      errorBuilder: (context, Object e, StackTrace? stack) {
-        final error = e as NetworkImageLoadException;
-        print(error.statusCode);
-        print(error.uri.toString());
-        if (error.statusCode == 403) {
-          refreshPhoto();
-        }
-        return const Text('Error occurred');
       },
     );
   }
 
-  refreshPhoto() async {
-    await repo.refreshPhoto();
-    setState(() {});
+  refreshPhoto() {
+    repo.refreshPhoto().then((value) => nextPhoto());
+  }
+
+  nextPhoto() {
+    Provider.of<PhotosProvider>(context, listen: false).refreshPhoto();
+  }
+
+  PhotoItem unsplashRandom() {
+    int random = Random(0).nextInt(photos.length - 1);
+    return PhotoItem("$random", "${photos[random]}?", "", "", "");
   }
 
   List<String> photos = [
@@ -78,14 +110,10 @@ class _PhotoWidgetState extends State<PhotoWidget> {
 
   tick() {
     timer = Timer.periodic(
-        Duration(seconds: repo.getConfig(AppConfig.photoDoc, AppConfig.photoRefresh)), (timer) {
-      selectedPhoto = repo.getRandomPhoto() ?? PhotoItem("", "${photos[0]}?", "", "", "");
-      if (dummy < photos.length) {
-        dummy++;
-      } else {
-        dummy = 0;
-      }
-      setState(() {});
+        Duration(
+          seconds: repo.getConfig(AppConfig.photoDoc, AppConfig.photoRefresh),
+        ), (timer) {
+      nextPhoto();
     });
   }
 }
