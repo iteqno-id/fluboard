@@ -66,9 +66,11 @@ class CalendarEventProvider extends ChangeNotifier {
         notifyListeners();
       });
 
-      _state = ResultState.noData;
-      notifyListeners();
-      _events = [];
+      if (_events.isEmpty) {
+        _state = ResultState.noData;
+        notifyListeners();
+        _events = [];
+      }
     } on ApiRequestError catch (e) {
       _state = ResultState.error;
       notifyListeners();
