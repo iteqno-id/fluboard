@@ -1,3 +1,5 @@
+import 'package:fluboard/utils/calendar_color.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 extension DateTimeExtension on DateTime {
@@ -25,4 +27,8 @@ extension PluralizeExtension on int {
 
 extension ConverterExtension on dynamic {
   String asKmph() => (double.parse("${this}") * 3.6).toStringAsFixed(2);
+}
+
+extension StringExtension on String? {
+  Color toColor() => this == null ? Colors.blue : CalendarColor.colors[int.parse(this!)];
 }
