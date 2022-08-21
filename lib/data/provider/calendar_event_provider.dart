@@ -2,10 +2,11 @@ import 'package:fluboard/data/model/common/event_parcel.dart';
 import 'package:fluboard/data/model/common/result_state.dart';
 import 'package:fluboard/data/repository/app_repository.dart';
 import 'package:fluboard/di/injector.dart';
+import 'package:fluboard/utils/calendar_color.dart';
 import 'package:fluboard/utils/extension.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:googleapis/calendar/v3.dart' as calendar;
+import 'package:googleapis/calendar/v3.dart';
 
 class CalendarEventProvider extends ChangeNotifier {
   final repository = getIt<AppRepository>();
@@ -33,6 +34,7 @@ class CalendarEventProvider extends ChangeNotifier {
         DateTime(DateTime.now().year, DateTime.now().month + 1, 0).add(const Duration(days: 7));
     try {
       final calendars = await repository.getCalendars();
+
       calendars.items?.forEach((element) async {
         final result = await repository.getEvents("${element.id}", dateMin, dateMax);
         _state = ResultState.hasData;
@@ -42,10 +44,32 @@ class CalendarEventProvider extends ChangeNotifier {
         _events.addAll(parcel ?? []);
         notifyListeners();
       });
+
+      final taskLists = await repository.getTaskLists();
+      taskLists.items?.forEach((element) async {
+        final tasks = await repository.getTasks("${element.id}");
+        tasks.items?.forEach((e) {
+          if (e.due != null) {
+            var parcel = EventParcel(
+              event: Event(
+                start: EventDateTime(date: DateTime.parse("${e.due}")),
+                end:
+                    EventDateTime(date: DateTime.parse("${e.due}").add(const Duration(seconds: 1))),
+                summary: e.title,
+              ),
+              color: CalendarColor.colors[20],
+            );
+            _events.add(parcel);
+          }
+        });
+        _state = ResultState.hasData;
+        notifyListeners();
+      });
+
       _state = ResultState.noData;
       notifyListeners();
       _events = [];
-    } on calendar.ApiRequestError catch (e) {
+    } on ApiRequestError catch (e) {
       _state = ResultState.error;
       notifyListeners();
       return _message = "${e.message}";

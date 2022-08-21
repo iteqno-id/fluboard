@@ -53,13 +53,13 @@ class _PhotoWidgetState extends State<PhotoWidget> {
               return const Center(child: CupertinoActivityIndicator());
             },
             errorBuilder: (context, Object e, StackTrace? stack) {
-              final error = e as NetworkImageLoadException;
-              debugPrint(error.statusCode.toString());
-              debugPrint(error.uri.toString());
-              if (error.statusCode == 403) {
-                refreshPhoto();
-              }
-              return const Text('Error occurred');
+              // final error = e as NetworkImageLoadException;
+              // debugPrint(error.statusCode.toString());
+              // debugPrint(error.uri.toString());
+              // if (error.statusCode == 403) {
+              refreshPhoto();
+              // }
+              return const Center(child: Text('Error occurred'));
             },
           );
         } else {

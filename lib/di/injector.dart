@@ -6,6 +6,7 @@ import 'package:fluboard/data/datasource/remote/google_calendar_service.dart';
 import 'package:fluboard/data/datasource/remote/google_people_service.dart';
 import 'package:fluboard/data/datasource/remote/google_photo_service.dart';
 import 'package:fluboard/data/datasource/remote/google_service.dart';
+import 'package:fluboard/data/datasource/remote/google_tasks_service.dart';
 import 'package:fluboard/data/datasource/remote/open_weather_service.dart';
 import 'package:fluboard/data/provider/current_weather_provider.dart';
 import 'package:fluboard/data/provider/forecast_provider.dart';
@@ -21,10 +22,11 @@ void init() {
   getIt.registerLazySingleton<GooglePeopleService>(() => GooglePeopleService());
   getIt.registerLazySingleton<GooglePhotoService>(() => GooglePhotoService());
   getIt.registerLazySingleton<GoogleCalendarService>(() => GoogleCalendarService());
+  getIt.registerLazySingleton<GoogleTasksService>(() => GoogleTasksService());
   getIt.registerLazySingleton<OpenWeatherDatasourceImpl>(() => OpenWeatherDatasourceImpl(getIt()));
   getIt.registerLazySingleton<LocalDatasourceImpl>(() => LocalDatasourceImpl(getIt()));
   getIt.registerLazySingleton<GoogleDatasourceImpl>(
-      () => GoogleDatasourceImpl(getIt(), getIt(), getIt(), getIt()));
+      () => GoogleDatasourceImpl(getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerLazySingleton<AppRepository>(() => AppRepository(getIt(), getIt(), getIt()));
   getIt.registerLazySingleton<ForecastProvider>(() => ForecastProvider());
   getIt.registerLazySingleton<CurrentWeatherProvider>(() => CurrentWeatherProvider());
