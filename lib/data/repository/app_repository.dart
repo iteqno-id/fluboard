@@ -45,7 +45,7 @@ class AppRepository {
       openWeatherDatasourceImpl.getCurrentWeather(city, units);
 
   Future<AuthClient> login(Function(String) callback) => googleDatasource.login(callback);
-  Future<AccessCredentials> refreshToken() => googleDatasource.refreshToken();
+  Future<AccessCredentials?> refreshToken() => googleDatasource.refreshToken();
   Future<Person> getUserInfo() => googleDatasource.getPerson();
   Future<ListAlbumsResponse> getAlbums() => googleDatasource.getAlbums();
   Future<Album> getAlbum(String albumId) => googleDatasource.getAlbum(albumId);

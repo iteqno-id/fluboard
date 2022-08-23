@@ -11,7 +11,7 @@ import 'package:googleapis_auth/auth_io.dart';
 
 abstract class GoogleDatasource {
   Future<AuthClient> login(Function(String) callback);
-  Future<AccessCredentials> refreshToken();
+  Future<AccessCredentials?> refreshToken();
   Future<Person> getPerson();
   Future<ListAlbumsResponse> getAlbums();
   Future<Album> getAlbum(String albumId);
@@ -43,7 +43,7 @@ class GoogleDatasourceImpl extends GoogleDatasource {
   Future<AuthClient> login(Function(String url) callback) => googleService.login(callback);
 
   @override
-  Future<AccessCredentials> refreshToken() => googleService.refreshToken();
+  Future<AccessCredentials?> refreshToken() => googleService.refreshToken();
 
   @override
   Future<Person> getPerson() => peopleService.getPerson();

@@ -5,5 +5,6 @@ class GoogleTasksService {
   TasksApi get service => TasksApi(AuthenticatedClient());
 
   Future<TaskLists> getTaskLists() async => await service.tasklists.list();
-  Future<Tasks> getTasks(String taskListId) => service.tasks.list(taskListId);
+  Future<Tasks> getTasks(String taskListId) =>
+      service.tasks.list(taskListId, showCompleted: true, showHidden: true);
 }
