@@ -28,6 +28,9 @@ class CalendarEventProvider extends ChangeNotifier {
   Future<dynamic> _getEvents() async {
     _state = ResultState.loading;
     notifyListeners();
+
+    _events = [];
+
     DateTime dateMin =
         DateTime(DateTime.now().year, DateTime.now().month, 1).subtract(const Duration(days: 7));
     DateTime dateMax =
@@ -52,12 +55,15 @@ class CalendarEventProvider extends ChangeNotifier {
           if (e.due != null) {
             var parcel = EventParcel(
               event: Event(
-                start: EventDateTime(date: DateTime.parse("${e.due}")),
-                end:
-                    EventDateTime(date: DateTime.parse("${e.due}").add(const Duration(seconds: 1))),
+                start: EventDateTime(date: DateTime.parse("${e.completed ?? e.due}")),
+                end: EventDateTime(
+                    date:
+                        DateTime.parse("${e.completed ?? e.due}").add(const Duration(seconds: 1))),
                 summary: e.title,
               ),
               color: CalendarColor.colors[20],
+              isTask: true,
+              isDone: e.hidden ?? false,
             );
             _events.add(parcel);
           }
@@ -68,8 +74,8 @@ class CalendarEventProvider extends ChangeNotifier {
 
       if (_events.isEmpty) {
         _state = ResultState.noData;
-        notifyListeners();
         _events = [];
+        notifyListeners();
       }
     } on ApiRequestError catch (e) {
       _state = ResultState.error;

@@ -23,6 +23,7 @@ class CalendarWidget extends StatefulWidget {
 class _CalendarWidgetState extends State<CalendarWidget> {
   final repo = getIt<AppRepository>();
   late Timer timer;
+  CalendarController sfController = CalendarController();
 
   @override
   void initState() {
@@ -44,6 +45,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           return const Center(child: CupertinoActivityIndicator());
         } else if (provider.state == ResultState.hasData || provider.state == ResultState.noData) {
           return SfCalendar(
+            controller: sfController,
             backgroundColor: Colors.black,
             view: CalendarView.month,
             firstDayOfWeek: 1,
@@ -65,6 +67,47 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               fontSize: 32,
             ),
             dataSource: MeetingDataSource(_getDataSource(provider.events)),
+            appointmentBuilder: (context, CalendarAppointmentDetails details) {
+              final meeting = details.appointments.first;
+
+              if (sfController.view == CalendarView.month) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: meeting.background,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                  padding: const EdgeInsets.only(left: 3),
+                  child: Row(
+                    children: [
+                      meeting.isTask
+                          ? Icon(
+                              meeting.isDone ? Icons.check_circle_outline : Icons.radio_button_off,
+                              size: 12)
+                          : Container(),
+                      meeting.isTask ? const SizedBox(width: 2) : Container(),
+                      Expanded(
+                        child: Text(
+                          meeting.eventName,
+                          style: meeting.isDone
+                              ? const TextStyle(
+                                  fontSize: 12, decoration: TextDecoration.lineThrough)
+                              : const TextStyle(fontSize: 12),
+                          maxLines: 1,
+                          overflow: TextOverflow.fade,
+                          softWrap: false,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return SizedBox(
+                  width: details.bounds.width,
+                  height: details.bounds.height,
+                  child: Text(meeting.first.eventName),
+                );
+              }
+            },
           );
         } else {
           return const Center(child: Text('Cannot load calender'));
@@ -83,6 +126,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   e.event.end!.dateTime!.subtract(const Duration(seconds: 1)),
               e.color,
               true,
+              isTask: e.isTask,
+              isDone: e.isDone,
             ))
         .toList();
     meetings.addAll(meetingList);
