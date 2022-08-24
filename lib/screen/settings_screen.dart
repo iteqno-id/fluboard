@@ -124,7 +124,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
         onTap: () => _showStringSetting(AppConfig.openWeatherApiBox, "Open Weather API"),
       ),
       ListTile(
-        leading: const Icon(CupertinoIcons.person_alt_circle),
+        leading: FutureBuilder<Person>(
+          future: repository.getUserInfo(),
+          builder: (BuildContext context, AsyncSnapshot<Person> snapshot) {
+            if (snapshot.hasData) {
+              return CircleAvatar(
+                foregroundImage: NetworkImage(snapshot.data!.photos!.first.url!),
+              );
+            } else {
+              return const Icon(CupertinoIcons.person_alt_circle);
+            }
+          },
+        ),
         title: const Text('Google Account'),
         trailing: const Icon(Icons.chevron_right),
         subtitle: FutureBuilder<Person>(
