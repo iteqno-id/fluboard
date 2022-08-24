@@ -4,7 +4,6 @@ import 'package:fluboard/data/repository/app_repository.dart';
 import 'package:fluboard/di/injector.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
 
 class GoogleService {
   Future<AuthClient> login(Function(String) callback) async => await clientViaUserConsent(
@@ -26,22 +25,9 @@ class GoogleService {
 
       repo.setConfig(AppConfig.accessToken, LocalAccessToken.fromAccessCredential(ac.accessToken));
       return ac;
-    } catch (e) {
-      repo.login((url) {
-        launchUrl(Uri.parse(url));
-      }).then((value) {
-        var accessToken = value.credentials.accessToken;
-        repo.setConfig(AppConfig.refreshToken, value.credentials.refreshToken);
-        repo.setConfig(
-            AppConfig.accessToken,
-            LocalAccessToken(
-              type: accessToken.type,
-              data: accessToken.data,
-              expiry: accessToken.expiry,
-            ));
-        return accessToken;
-      });
+    } on Exception catch (e) {
+      await repo.setConfig(AppConfig.refreshToken, null);
+      throw Exception(e.toString());
     }
-    return ac;
   }
 }
