@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+Timer? calendarTimer;
+
 class CalendarWidget extends StatefulWidget {
   const CalendarWidget({Key? key}) : super(key: key);
 
@@ -22,7 +24,6 @@ class CalendarWidget extends StatefulWidget {
 
 class _CalendarWidgetState extends State<CalendarWidget> {
   final repo = getIt<AppRepository>();
-  late Timer timer;
   CalendarController sfController = CalendarController();
 
   @override
@@ -33,7 +34,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
   @override
   void dispose() {
-    timer.cancel();
+    calendarTimer?.cancel();
     super.dispose();
   }
 
@@ -150,7 +151,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   }
 
   tick() {
-    timer = Timer.periodic(
+    calendarTimer?.cancel();
+    calendarTimer = Timer.periodic(
         Duration(
           minutes: repo.getConfig(AppConfig.calendarDoc, AppConfig.calendarRefresh),
         ), (timer) {
