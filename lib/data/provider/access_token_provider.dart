@@ -36,7 +36,7 @@ class AccessTokenProvider extends ChangeNotifier {
       if (refreshToken.isNotEmpty) {
         final refresh = await repository.refreshToken();
         var accessToken = LocalAccessToken(
-          type: refresh.accessToken.type,
+          type: refresh!.accessToken.type,
           data: refresh.accessToken.data,
           expiry: refresh.accessToken.expiry,
         );

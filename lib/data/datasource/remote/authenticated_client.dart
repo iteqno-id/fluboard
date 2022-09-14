@@ -11,7 +11,7 @@ class AuthenticatedClient extends http.BaseClient {
     var token = repo.getConfig<LocalAccessToken?>(AppConfig.accessToken, null) as LocalAccessToken;
     if (!token.isValid()) {
       final newToken = await repo.refreshToken();
-      token = LocalAccessToken.fromAccessCredential(newToken.accessToken);
+      token = LocalAccessToken.fromAccessCredential(newToken!.accessToken);
     }
     request.headers.addAll({"Authorization": "Bearer ${token.data}"});
     return request.send();

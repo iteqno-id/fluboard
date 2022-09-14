@@ -10,6 +10,8 @@ import 'package:fluboard/di/injector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
+Timer? photoTimer;
+
 class PhotoWidget extends StatefulWidget {
   const PhotoWidget({Key? key}) : super(key: key);
 
@@ -20,7 +22,6 @@ class PhotoWidget extends StatefulWidget {
 class _PhotoWidgetState extends State<PhotoWidget> {
   final repo = getIt<AppRepository>();
   late PhotoItem selectedPhoto;
-  late Timer timer;
   int dummy = 0;
 
   @override
@@ -31,7 +32,7 @@ class _PhotoWidgetState extends State<PhotoWidget> {
 
   @override
   void dispose() {
-    timer.cancel();
+    photoTimer?.cancel();
     super.dispose();
   }
 
@@ -109,7 +110,9 @@ class _PhotoWidgetState extends State<PhotoWidget> {
   ];
 
   tick() {
-    timer = Timer.periodic(
+    // timer?.cancel();
+    photoTimer?.cancel();
+    photoTimer = Timer.periodic(
         Duration(
           seconds: repo.getConfig(AppConfig.photoDoc, AppConfig.photoRefresh),
         ), (timer) {

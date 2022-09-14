@@ -12,15 +12,22 @@ class GoogleService {
         callback,
       );
 
-  Future<AccessCredentials> refreshToken() async {
+  Future<AccessCredentials?> refreshToken() async {
     final repo = getIt<AppRepository>();
     var token =
         await repo.getConfig<LocalAccessToken?>(AppConfig.accessToken, null) as LocalAccessToken;
     var accessToken = AccessToken(token.type, token.data, token.expiry);
     var refreshToken = await repo.getConfig(AppConfig.refreshToken, "");
-    var ac = await refreshCredentials(ClientId(AppConfig.clientId, AppConfig.clientSecret),
-        AccessCredentials(accessToken, refreshToken, AppConfig.googleScope), http.Client());
-    repo.setConfig(AppConfig.accessToken, LocalAccessToken.fromAccessCredential(ac.accessToken));
-    return ac;
+    AccessCredentials? ac;
+    try {
+      ac = await refreshCredentials(ClientId(AppConfig.clientId, AppConfig.clientSecret),
+          AccessCredentials(accessToken, refreshToken, AppConfig.googleScope), http.Client());
+
+      repo.setConfig(AppConfig.accessToken, LocalAccessToken.fromAccessCredential(ac.accessToken));
+      return ac;
+    } on Exception catch (e) {
+      await repo.setConfig(AppConfig.refreshToken, null);
+      throw Exception(e.toString());
+    }
   }
 }
