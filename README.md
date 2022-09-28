@@ -7,12 +7,12 @@ Build calendar board ([DAKBoard alternative](https://dakboard.com/)) which easy 
 
 ## Screenshots
 
-![Desktop](https://user-images.githubusercontent.com/343957/183285085-c9bc1080-affd-458d-902e-28d7fd393cff.png)
+![Desktop](https://user-images.githubusercontent.com/343957/192685237-9839192d-b38d-427d-81eb-1c4c395aebbd.png)
 
 <img width="806" alt="Desktop Screen" src="https://user-images.githubusercontent.com/343957/182877109-97d8d6a4-814e-40d2-b1b4-640249dce2e8.png">
 
-![Settings Screen](https://user-images.githubusercontent.com/343957/183296045-63edd95a-afaa-4cb1-968e-8f65217f01ce.png)
-
+![Settings Screen](https://user-images.githubusercontent.com/343957/192685407-8841d943-9442-41af-9a85-0ac27bd4ba3c.png)
+![Account](https://user-images.githubusercontent.com/343957/192685540-366f4ef6-0bc5-40c9-b346-9ec9471274bd.png)
 
 ## Setup
 Don't forget to create `.env` file in the `root` folder and put some configuration variables as follows:
@@ -38,7 +38,7 @@ Choose `Desktop` as application type. On OAuth consent screen, add your email as
 |   OS   | Supported | Tested |
 |--------|-----------|--------|
 | macOS  |     ✅    |  ✅    |
-| Linux  |     ✅    |  ☑️   |
-| Windows  |     ✅    |  ☑️   |
-| Tablet  |     ✅    |  ☑️   |
+| Linux  |     ✅    |  ✅   |
+| Windows  |     ✅    |  ✅   |
+| Tablet  |     ✅    |  ✅   |
 | iPad  |     ✅    |  ✅   |
